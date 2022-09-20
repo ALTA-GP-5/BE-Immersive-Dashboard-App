@@ -26,7 +26,7 @@ jobs:
             export DB_PASS=${{ secrets.DB_PASSWORD }}
             export SERVER_PORT=${{ secrets.SERVER_PORT }}
             export JWT_SECRET=${{ secrets.JWT_SECRET }}
-            export BASE_URL=${{ secrets.BASE_URL}}
+            export BASE_URL=${{ secrets.BASE_URL }}
             git pull origin main
             go mod tidy
             docker compose down

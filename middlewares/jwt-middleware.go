@@ -2,8 +2,8 @@ package middlewares
 
 import (
 	"immersive/config"
-	"fmt"
-	"log"
+	"immersive/utils/helpers"
+	"net/http"
 	"time"
 
 	"github.com/golang-jwt/jwt"
@@ -19,28 +19,30 @@ func JWTMiddleware() echo.MiddlewareFunc {
 	})
 }
 
-func CreateToken(userID uint) (string, error) {
+func CreateToken(userID uint, role string) (string, error) {
 	cfg := config.GetConfig()
 	claims := jwt.MapClaims{}
 	claims["userID"] = userID
+	claims["role"] = role
 	claims["exp"] = time.Now().Add(24 * time.Hour).Unix()
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString([]byte(cfg.JWT_SECRET))
 }
 
-func GetToken(c echo.Context) (int, error) {
+func ExtractToken(c echo.Context) (int, string) {
 	token, ok := c.Get("user").(*jwt.Token)
 
 	if !ok {
-		log.Fatal(ok)
+		c.JSON(http.StatusForbidden, helpers.FailedResponse("jwt not ok"))
 	}
 
 	if token.Valid {
 		claim := token.Claims.(jwt.MapClaims)
 		uid := claim["userID"].(float64)
-		return int(uid), nil
+		role := claim["role"].(string)
+		return int(uid), role
 	}
 
-	return 0, fmt.Errorf("token invalid")
+	return 0, ""
 }
