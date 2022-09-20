@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  apps: 
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: immersiveapp
+    depends_on:
+      - db
+    container_name: immersiveapp
+    ports: 
+      - ${SERVER_PORT}:${SERVER_PORT}
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      SERVER_PORT: ${SERVER_PORT}
+      JWT_SECRET: ${JWT_SECRET}
+      BASE_URL: ${BASE_URL}
+

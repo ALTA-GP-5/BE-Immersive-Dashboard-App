@@ -1,0 +1,34 @@
+name: deploy to EC2
+
+on:
+  push:
+    branches: 
+      - main
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: connect to the server and deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /home/ubuntu/immersive
+            export DB_NAME=${{ secrets.DB_NAME }}
+            export DB_HOST=${{ secrets.DB_HOST }}
+            export DB_PORT=${{ secrets.DB_PORT }}
+            export DB_USER=${{ secrets.DB_USER }}
+            export DB_PASS=${{ secrets.DB_PASSWORD }}
+            export SERVER_PORT=${{ secrets.SERVER_PORT }}
+            export JWT_SECRET=${{ secrets.JWT_SECRET }}
+            export BASE_URL=${{ secrets.BASE_URL}}
+            git pull origin main
+            go mod tidy
+            docker compose down
+            docker rmi immersiveapp
+            docker compose up -d
