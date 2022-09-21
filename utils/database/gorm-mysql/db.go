@@ -5,6 +5,7 @@ import (
 	"immersive/config"
 	"log"
 
+	classModel "immersive/domains/class/models"
 	mentorModel "immersive/domains/mentor/models"
 
 	"gorm.io/driver/mysql"
@@ -27,5 +28,6 @@ func InitDB(cfg *config.AppConfig) *gorm.DB {
 func autoMigrate(db *gorm.DB) {
 	db.AutoMigrate(
 		new(mentorModel.Mentor),
+		new(classModel.Class),
 	)
 }
