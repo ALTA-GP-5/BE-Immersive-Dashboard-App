@@ -43,6 +43,17 @@ func (h *mentorHandler) Create(c echo.Context) error {
 
 func (h *mentorHandler) ReadAll(c echo.Context) error {
 	mentorEntity := entity.MentorEntity{}
+
+	q := c.QueryParam("q")
+	if q != "" {
+		mentorEntity.GeneralSearch = q
+	}
+
+	classStatus := c.QueryParam("class_status")
+	if classStatus != "" {
+		mentorEntity.ClassStatus = classStatus
+	}
+
 	mentorList, err := h.Usecase.ReadAll(mentorEntity)
 	if err != nil {
 		return err

@@ -35,7 +35,18 @@ func (r *mentorRepo) Insert(mentor entity.MentorEntity) error {
 func (r *mentorRepo) GetAll(mentor entity.MentorEntity) ([]entity.MentorEntity, error) {
 	dataModel := []model.Mentor{}
 
-	tx := r.DB.Model(&model.Mentor{}).Find(&dataModel)
+	tx := r.DB.Model(&model.Mentor{})
+
+	if mentor.GeneralSearch != "" {
+		tx.Where("fullname = ?", mentor.GeneralSearch).Or("email = ?", mentor.GeneralSearch).Or("team = ?", mentor.GeneralSearch).Or("role = ?", mentor.GeneralSearch).Or("mentors.status = ?", mentor.GeneralSearch)
+	}
+
+	if mentor.ClassStatus != "" {
+		tx.Joins("JOIN classes ON classes.mentor_id = mentors.id AND classes.status = ?", mentor.ClassStatus)
+	}
+
+	tx.Find(&dataModel)
+
 	if tx.Error != nil {
 		return []entity.MentorEntity{}, exceptions.NewInternalServerError(tx.Error.Error())
 	}

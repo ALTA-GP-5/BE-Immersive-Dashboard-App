@@ -2,6 +2,7 @@ package mentormodel
 
 import (
 	entity "immersive/domains/mentor/entities"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -14,6 +15,17 @@ type Mentor struct {
 	Role     string
 	Password string
 	Status   string
+
+	Class Class
+}
+
+type Class struct {
+	gorm.Model
+	MentorID  uint
+	Name      string
+	StartDate time.Time
+	EndDate   time.Time
+	Status    string
 }
 
 func EntityToModel(mentorEntity entity.MentorEntity) Mentor {
