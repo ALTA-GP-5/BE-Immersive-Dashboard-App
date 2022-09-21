@@ -62,6 +62,7 @@ func (r *mentorRepo) GetById(mentor entity.MentorEntity) (entity.MentorEntity, e
 
 func (r *mentorRepo) Update(mentor entity.MentorEntity) error {
 	dataModel := model.EntityToModel(mentor)
+	dataModel.ID = mentor.MentorID
 
 	tx := r.DB.Model(&model.Mentor{}).Where("id = ?", dataModel.ID).Updates(&dataModel)
 	if tx.Error != nil {
