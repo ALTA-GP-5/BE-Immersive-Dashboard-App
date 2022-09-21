@@ -14,6 +14,10 @@ import (
 	mentorrepo "immersive/domains/mentor/repositories"
 	mentorusecase "immersive/domains/mentor/usecases"
 
+	classhandler "immersive/domains/class/handlers"
+	classrepo "immersive/domains/class/repositories"
+	classusecase "immersive/domains/class/usecases"
+
 	"immersive/middlewares"
 )
 
@@ -30,6 +34,10 @@ func InitRoutes(e *echo.Echo, db *gorm.DB, cfg *config.AppConfig) {
 	mentorUsecase := mentorusecase.New(mentorRepo)
 	mentorHandler := mentorhandler.New(mentorUsecase)
 
+	classRepo := classrepo.New(db)
+	classUsecase := classusecase.New(classRepo)
+	classHandler := classhandler.New(classUsecase)
+
 	/*
 		Routes
 	*/
@@ -40,4 +48,10 @@ func InitRoutes(e *echo.Echo, db *gorm.DB, cfg *config.AppConfig) {
 	e.GET("/mentor/:id", mentorHandler.ReadById, middlewares.JWTMiddleware())
 	e.PUT("/mentor/:id", mentorHandler.Update, middlewares.JWTMiddleware())
 	e.DELETE("/mentor/:id", mentorHandler.Delete, middlewares.JWTMiddleware(), middlewares.IsAdmin)
+
+	e.POST("/class", classHandler.Create, middlewares.JWTMiddleware())
+	e.GET("/classes", classHandler.GetAll, middlewares.JWTMiddleware())
+	e.GET("/class/:id", classHandler.Get, middlewares.JWTMiddleware())
+	e.PUT("/class/:id", classHandler.Update, middlewares.JWTMiddleware())
+	e.DELETE("/class/:id", classHandler.Delete, middlewares.JWTMiddleware())
 }
