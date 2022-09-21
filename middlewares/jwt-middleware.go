@@ -1,6 +1,7 @@
 package middlewares
 
 import (
+	"errors"
 	"immersive/config"
 	"immersive/utils/helpers"
 	"net/http"
@@ -20,6 +21,10 @@ func JWTMiddleware() echo.MiddlewareFunc {
 }
 
 func CreateToken(userID uint, role string) (string, error) {
+	if userID == 0 || role == "" {
+		return "", errors.New("empty response")
+	}
+
 	cfg := config.GetConfig()
 	claims := jwt.MapClaims{}
 	claims["userID"] = userID

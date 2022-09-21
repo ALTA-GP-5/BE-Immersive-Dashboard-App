@@ -19,7 +19,7 @@ func CustomErrorHandling(err error, c echo.Context) {
 		return
 	} else if forbiddenError(err, c) {
 		return
-	} else if validationError(err, c){
+	} else if validationError(err, c) {
 		return
 	} else {
 		internalServerError(err, c)
@@ -40,7 +40,7 @@ func internalServerError(err error, c echo.Context) bool {
 }
 
 func badRequestError(err error, c echo.Context) bool {
-	response, ok := err.(*ForbiddenErrorStruct)
+	response, ok := err.(*BadRequestErrorStruct)
 	if ok {
 		c.JSON(http.StatusBadRequest, map[string]interface{}{
 			"success": false,
