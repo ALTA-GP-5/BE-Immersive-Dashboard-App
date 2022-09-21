@@ -78,6 +78,7 @@ func (r *mentorRepo) Update(mentor entity.MentorEntity) error {
 
 func (r *mentorRepo) Delete(mentor entity.MentorEntity) error {
 	dataModel := model.EntityToModel(mentor)
+	dataModel.ID = mentor.MentorID
 
 	tx := r.DB.Model(&model.Mentor{}).Where("id = ?", dataModel.ID).Delete(&dataModel)
 	if tx.Error != nil {
