@@ -30,15 +30,23 @@ func (h *feedbackHandler) Create(c echo.Context) error {
 	}
 
 	err = c.Validate(&feedBackRequest)
-
 	if err != nil {
 		return err
 	}
+
+	fileData, imageInfo, imageErr := c.Request().FormFile("file")
+	if imageErr == http.ErrMissingFile || imageErr != nil {
+		return exceptions.NewBadRequestError("file missing")
+	}
+
 	feedbackEntity := requestToEntity(feedBackRequest)
 
 	uid, _ := middlewares.ExtractToken(c)
 
 	feedbackEntity.MentorID = uint(uid)
+	feedbackEntity.FileData = fileData
+	feedbackEntity.FileName = imageInfo.Filename
+	feedbackEntity.FileSize = imageInfo.Size
 
 	err = h.Usecase.Create(feedbackEntity)
 	if err != nil {

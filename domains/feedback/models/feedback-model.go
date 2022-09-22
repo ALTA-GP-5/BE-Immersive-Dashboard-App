@@ -2,7 +2,6 @@ package classmodel
 
 import (
 	entity "immersive/domains/feedback/entities"
-	"time"
 
 	"gorm.io/gorm"
 )
@@ -12,7 +11,6 @@ type FeedBack struct {
 	MentorID uint
 	MenteeID uint
 	Status   string
-	Date     time.Time
 	Desc     string
 	Url      string
 
@@ -44,7 +42,6 @@ func EntityToModel(feedBackEntity entity.FeedBackEntity) FeedBack {
 		MentorID: feedBackEntity.MentorID,
 		MenteeID: feedBackEntity.MenteeID,
 		Status:   feedBackEntity.Status,
-		Date:     feedBackEntity.Date,
 		Desc:     feedBackEntity.Desc,
 		Url:      feedBackEntity.Url,
 	}
@@ -59,5 +56,6 @@ func ModelToEntity(feedBackModel FeedBack) entity.FeedBackEntity {
 		Status:     feedBackModel.Status,
 		Desc:       feedBackModel.Desc,
 		Url:        feedBackModel.Url,
+		CreatedAt:  feedBackModel.CreatedAt,
 	}
 }

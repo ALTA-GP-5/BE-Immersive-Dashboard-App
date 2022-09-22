@@ -19,7 +19,7 @@ func EntityToResponse(feedBackEntity entity.FeedBackEntity) response {
 		Status:     feedBackEntity.Status,
 		MentorName: feedBackEntity.MentorName,
 		Desc:       feedBackEntity.Desc,
-		Date:       feedBackEntity.Date.Format("2006-01-02f"),
+		Date:       feedBackEntity.CreatedAt.Format("2006-01-02"),
 		Url:        feedBackEntity.Url,
 	}
 }

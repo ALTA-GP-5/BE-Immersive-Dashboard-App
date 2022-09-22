@@ -1,6 +1,9 @@
 package feedbackentities
 
-import "time"
+import (
+	"mime/multipart"
+	"time"
+)
 
 type FeedBackEntity struct {
 	FeedBackID uint
@@ -8,7 +11,10 @@ type FeedBackEntity struct {
 	MentorID   uint
 	MentorName string
 	Status     string
-	Date       time.Time
+	CreatedAt  time.Time
 	Desc       string
+	FileName   string
+	FileData   multipart.File
+	FileSize   int64
 	Url        string
 }
