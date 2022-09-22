@@ -20,4 +20,8 @@ services:
       SERVER_PORT: ${SERVER_PORT}
       JWT_SECRET: ${JWT_SECRET}
       BASE_URL: ${BASE_URL}
+      AWS_REGION: ${AWS_REGION}
+      S3_KEY: ${S3_KEY}
+      S3_SECRET: ${S3_SECRET}
+      S3_BUCKET: ${S3_BUCKET}
 

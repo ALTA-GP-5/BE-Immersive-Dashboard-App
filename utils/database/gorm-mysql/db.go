@@ -6,6 +6,7 @@ import (
 	"log"
 
 	classModel "immersive/domains/class/models"
+	feedbackModel "immersive/domains/feedback/models"
 	menteeModel "immersive/domains/mentee/models"
 	mentorModel "immersive/domains/mentor/models"
 
@@ -32,5 +33,6 @@ func autoMigrate(db *gorm.DB) {
 		new(classModel.Class),
 		new(menteeModel.Mentee),
 		new(menteeModel.MenteeDetail),
+		new(feedbackModel.FeedBack),
 	)
 }

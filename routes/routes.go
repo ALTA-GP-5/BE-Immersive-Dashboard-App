@@ -22,6 +22,10 @@ import (
 	menteerepo "immersive/domains/mentee/repositories"
 	menteeusecase "immersive/domains/mentee/usecases"
 
+	feedbackhandler "immersive/domains/feedback/handlers"
+	feedbackrepo "immersive/domains/feedback/repositories"
+	feedbackusecase "immersive/domains/feedback/usecases"
+
 	"immersive/middlewares"
 )
 
@@ -46,6 +50,10 @@ func InitRoutes(e *echo.Echo, db *gorm.DB, cfg *config.AppConfig) {
 	menteeUsecase := menteeusecase.New(menteeRepo)
 	menteeHandler := menteehandler.New(menteeUsecase)
 
+	feedbackRepo := feedbackrepo.New(db)
+	feedbackUsecase := feedbackusecase.New(feedbackRepo)
+	feedbackHandler := feedbackhandler.New(feedbackUsecase)
+
 	/*
 		Routes
 	*/
@@ -68,4 +76,7 @@ func InitRoutes(e *echo.Echo, db *gorm.DB, cfg *config.AppConfig) {
 	e.GET("/mentee/:id", menteeHandler.Get, middlewares.JWTMiddleware())
 	e.PUT("/mentee/:id", menteeHandler.Update, middlewares.JWTMiddleware())
 	e.DELETE("/mentee/:id", menteeHandler.Delete, middlewares.JWTMiddleware())
+
+	e.POST("/feedback", feedbackHandler.Create, middlewares.JWTMiddleware())
+	e.GET("/feedbacks/:mentee_id", feedbackHandler.GetAll, middlewares.JWTMiddleware())
 }
