@@ -38,7 +38,7 @@ func (r *mentorRepo) GetAll(mentor entity.MentorEntity) ([]entity.MentorEntity, 
 	tx := r.DB.Model(&model.Mentor{})
 
 	if mentor.GeneralSearch != "" {
-		tx.Where("fullname = ?", mentor.GeneralSearch).Or("email = ?", mentor.GeneralSearch).Or("team = ?", mentor.GeneralSearch).Or("role = ?", mentor.GeneralSearch).Or("mentors.status = ?", mentor.GeneralSearch)
+		tx.Where("fullname LIKE ?", "%"+mentor.GeneralSearch+"%").Or("email LIKE ?", "%"+mentor.GeneralSearch+"%").Or("team LIKE ?", "%"+mentor.GeneralSearch+"%").Or("role LIKE ?", "%"+mentor.GeneralSearch+"%").Or("mentors.status LIKE ?", "%"+mentor.GeneralSearch+"%")
 	}
 
 	if mentor.ClassStatus != "" {
