@@ -2,16 +2,15 @@ package handlerclass
 
 import (
 	entity "immersive/domains/class/entities"
-	"time"
 )
 
 type response struct {
-	Id        uint      `json:"id"`
-	Mentor    string    `json:"mentor"`
-	Name      string    `json:"name"`
-	StartDate time.Time `json:"start_date"`
-	EndDate   time.Time `json:"end_date"`
-	Status    string    `json:"status"`
+	Id        uint   `json:"id"`
+	Mentor    string `json:"mentor"`
+	Name      string `json:"name"`
+	StartDate string `json:"start_date"`
+	EndDate   string `json:"end_date"`
+	Status    string `json:"status"`
 }
 
 func EntityToResponse(classEntity entity.ClassEntity) response {
@@ -19,8 +18,8 @@ func EntityToResponse(classEntity entity.ClassEntity) response {
 		Id:        classEntity.ClassID,
 		Mentor:    classEntity.MentorName,
 		Name:      classEntity.Name,
-		StartDate: classEntity.StartDate,
-		EndDate:   classEntity.EndDate,
+		StartDate: classEntity.StartDate.Format("2006-01-02"),
+		EndDate:   classEntity.EndDate.Format("2006-01-02"),
 		Status:    classEntity.Status,
 	}
 }
