@@ -6,6 +6,7 @@ import (
 	"immersive/utils/helpers"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/labstack/echo/v4"
 )
@@ -34,7 +35,22 @@ func (h *classHandler) Create(c echo.Context) error {
 		return err
 	}
 
-	err = h.Usecase.Create(requestToEntity(classRequest))
+	classEntity := requestToEntity(classRequest)
+
+	startDate, err := time.Parse("2006-01-02", classRequest.StartDate)
+	if err != nil {
+		return exceptions.NewBadRequestError(err.Error())
+	}
+
+	endDate, err := time.Parse("2006-01-02", classRequest.EndDate)
+	if err != nil {
+		return exceptions.NewBadRequestError(err.Error())
+	}
+
+	classEntity.StartDate = startDate
+	classEntity.EndDate = endDate
+
+	err = h.Usecase.Create(classEntity)
 	if err != nil {
 		return err
 	}
