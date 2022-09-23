@@ -25,7 +25,7 @@ func TestLogin(t *testing.T) {
 
 		loginusecase := New(repo)
 		mentorEntity.Password = "yoasobikakeru"
-		token, err := loginusecase.Login(mentorEntity)
+		token, _, err := loginusecase.Login(mentorEntity)
 
 		assert.NoError(t, err)
 		assert.NotEqual(t, "", token)
@@ -40,7 +40,7 @@ func TestLogin(t *testing.T) {
 
 		loginusecase := New(repo)
 		mentorEntity.Password = "nande"
-		token, err := loginusecase.Login(mentorEntity)
+		token, _, err := loginusecase.Login(mentorEntity)
 
 		assert.Equal(t, "email or password not match!", err.Error())
 		assert.Equal(t, "", token)
@@ -58,7 +58,7 @@ func TestLogin(t *testing.T) {
 
 		loginusecase := New(repo)
 		mentorEntity.Password = "yoasobikakeru"
-		token, err := loginusecase.Login(mentorEntity)
+		token, _, err := loginusecase.Login(mentorEntity)
 
 		assert.Equal(t, "empty response", err.Error())
 		assert.Equal(t, "", token)
@@ -71,7 +71,7 @@ func TestLogin(t *testing.T) {
 		repo.On("GetByEmail", mock.Anything).Return(entity.MentorEntity{}, errors.New("internal server error"))
 
 		loginusecase := New(repo)
-		token, err := loginusecase.Login(mentorEntity)
+		token, _, err := loginusecase.Login(mentorEntity)
 
 		assert.Equal(t, "internal server error", err.Error())
 		assert.Equal(t, "", token)

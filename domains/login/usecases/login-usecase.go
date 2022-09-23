@@ -18,22 +18,22 @@ func New(repo entity.ILoginRepo) *loginUsecase {
 	}
 }
 
-func (u *loginUsecase) Login(mentor entity.MentorEntity) (string, error) {
+func (u *loginUsecase) Login(mentor entity.MentorEntity) (string, string, error) {
 	mentorResult, err := u.Repo.GetByEmail(mentor)
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(mentorResult.Password), []byte(mentor.Password))
 
 	if err != nil {
-		return "", exceptions.NewBadRequestError("email or password not match!")
+		return "", "", exceptions.NewBadRequestError("email or password not match!")
 	}
 
 	token, err := middlewares.CreateToken(mentorResult.MentorID, mentorResult.Role)
 	if err != nil {
-		return "", exceptions.NewInternalServerError(err.Error())
+		return "", "", exceptions.NewInternalServerError(err.Error())
 	}
 
-	return token, nil
+	return token, mentorResult.Role, nil
 }
