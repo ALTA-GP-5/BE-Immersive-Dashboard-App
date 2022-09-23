@@ -1,7 +1,6 @@
 package feedbackusecase
 
 import (
-	"fmt"
 	"immersive/config"
 	entity "immersive/domains/feedback/entities"
 	"immersive/exceptions"
@@ -42,7 +41,6 @@ func (u *feedbackUsecase) Create(feedbackEntity entity.FeedBackEntity) error {
 	} else {
 		fileUrl, errUploadFile := helpers.UploadFileToS3(config.PDFDIR, filename, config.CONTENT_DOCUMENTS, feedbackEntity.FileData)
 		if errUploadFile != nil {
-			fmt.Println(errUploadFile)
 			return exceptions.NewInternalServerError(errUploadFile.Error())
 		}
 		feedbackEntity.Url = fileUrl
