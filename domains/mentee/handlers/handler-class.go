@@ -142,7 +142,19 @@ func (h *menteeHandler) GetAll(c echo.Context) error {
 
 	var menteeResponseList []response
 	for _, menteeResult := range menteeResultList {
-		menteeResponseList = append(menteeResponseList, EntityToResponse(menteeResult))
+		menteeResponse := EntityToResponse(menteeResult)
+		if menteeResult.Gender {
+			menteeResponse.Gender = "Female"
+		} else {
+			menteeResponse.Gender = "Male"
+		}
+
+		if menteeResult.Type {
+			menteeResponse.Type = "Informatics"
+		} else {
+			menteeResponse.Type = "Non-Informatics"
+		}
+		menteeResponseList = append(menteeResponseList, menteeResponse)
 	}
 
 	return c.JSON(http.StatusOK, helpers.SuccessGetResponseData(menteeResponseList))
