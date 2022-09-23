@@ -11,13 +11,13 @@ type response struct {
 	Address         string `json:"address"`
 	HomeAddress     string `json:"home_address"`
 	Email           string `json:"email"`
-	Gender          bool   `json:"gender"`
+	Gender          string   `json:"gender"`
 	Telegram        string `json:"telegram"`
 	Phone           string `json:"phone"`
 	EmergencyName   string `json:"emergency_name"`
 	EmergencyPhone  string `json:"emergency_phone"`
 	EmergencyStatus string `json:"emergency_status"`
-	Type            bool   `json:"type"`
+	Type            string   `json:"type"`
 	Major           string `json:"major"`
 	Graduate        string `json:"graduate"`
 	Status          string `json:"status"`
@@ -34,13 +34,11 @@ func EntityToResponse(menteeEntity entity.MenteeEntity) response {
 		Address:         menteeEntity.Address,
 		HomeAddress:     menteeEntity.HomeAddress,
 		Email:           menteeEntity.Email,
-		Gender:          menteeEntity.Gender,
 		Telegram:        menteeEntity.Telegram,
 		Phone:           menteeEntity.Phone,
 		EmergencyName:   menteeEntity.EmergencyName,
 		EmergencyPhone:  menteeEntity.EmergencyPhone,
 		EmergencyStatus: menteeEntity.EmergencyStatus,
-		Type:            menteeEntity.Type,
 		Major:           menteeEntity.Major,
 		Graduate:        menteeEntity.Graduate,
 		Status:          menteeEntity.Status,
