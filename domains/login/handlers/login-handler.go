@@ -31,12 +31,13 @@ func (h *loginHandler) Login(c echo.Context) error {
 		return err
 	}
 
-	token, err := h.Usecase.Login(requestToEntity(request))
+	token, role, err := h.Usecase.Login(requestToEntity(request))
 	if err != nil {
 		return err
 	}
 
 	return c.JSON(http.StatusOK, helpers.SuccessGetResponseData(map[string]interface{}{
 		"token": token,
+		"role":  role,
 	}))
 }

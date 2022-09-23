@@ -5,5 +5,5 @@ type ILoginRepo interface {
 }
 
 type ILoginUsecase interface {
-	Login(mentor MentorEntity) (string, error)
+	Login(mentor MentorEntity) (string,string, error)
 }
